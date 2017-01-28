@@ -22,7 +22,7 @@ apple_health_class <- R6::R6Class("apple_health_data",
 #' health_data <- read_apple_health(zip_file)
 #' print(health_data)
 read_apple_health <- function(export_zip) {
-  apple_health_class$new(export_zip)
+  apple_health_class$new(export_zip) #nolint
 }
 
 
