@@ -1,4 +1,4 @@
 library(testthat)
-library(healthieR)
+library(healthieR) #nolint
 
 test_check("healthieR")
