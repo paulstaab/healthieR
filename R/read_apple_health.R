@@ -19,6 +19,10 @@ apple_health_class <- R6::R6Class("apple_health_data",
     get_personal_info = function() {
       "returns personal information (date of birth, sex, blood & skin type)"
       private$personal_info
+    },
+    get_weight = function() {
+      "returns weight information as data.frame"
+      ah_get_weight(private$data_raw)
     }
   )
 )
@@ -115,4 +119,28 @@ ah_translate_skintype <- function(x) {
        NA
      }
   )
+}
+
+
+ah_parse_time <- function(time) {
+  time <- gsub(" +", "+", time, fixed = TRUE)
+  lubridate::ymd_hms(time, tz = "UTC")
+}
+
+
+ah_get_xml_records <- function(data_raw, type) {
+  xml2::xml_find_all(data_raw,
+                     paste0(".//Record[attribute::type='", type, "']"))
+}
+
+
+ah_get_weight <- function(data_raw) {
+  records <- ah_get_xml_records(data_raw, "HKQuantityTypeIdentifierBodyMass")
+  record_attr <- xml2::xml_attrs(records)
+  do.call(rbind.data.frame, lapply(record_attr, function(x) {
+    data.frame(time = ah_parse_time(x["startDate"]),
+               unit = x["unit"],
+               value = as.numeric(x["value"]),
+               row.names = NULL)
+  }))
 }

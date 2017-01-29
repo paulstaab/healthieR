@@ -61,3 +61,28 @@ test_that("translation of skin_type works", {
     expect_equal(ah_translate_skintype("HKFitzpatrickSkinTypeOther"), NA)
   )
 })
+
+
+test_that("datetimes are parsed correctly", {
+  expect_equal(ah_parse_time("2016-06-10 06:30:00 +0100"),
+               lubridate::ymd_hms("2016-06-10 05:30:00", tz = "UTC"))
+})
+
+
+test_that("xml records are extracted", {
+  data_raw <- ah_load_raw_data(ah_data_file)
+  type <- "HKQuantityTypeIdentifierHeight"
+  expect_equal(length(ah_get_xml_records(data_raw, type)), 2)
+  type <- "HKQuantityTypeIdentifierDistanceWalkingRunning"
+  expect_equal(length(ah_get_xml_records(data_raw, type)), 3)
+})
+
+
+test_that("weight can be extracted from data", {
+  ah <- read_apple_health(ah_data_file)
+  expect_equal(ah$get_weight(),
+               data.frame(time = c(ah_parse_time("2016-06-10 06:30:00 +0100"),
+                                   ah_parse_time("2016-06-12 21:07:00 +0100")),
+                          unit = c("kg", "kg"),
+                          value = c(88.8, 99.9)))
+})
