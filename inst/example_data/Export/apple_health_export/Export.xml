@@ -79,7 +79,7 @@
 ]>
 <HealthData locale="de_DE">
  <ExportDate value="2017-01-25 20:11:49 +0100"/>
- <Me HKCharacteristicTypeIdentifierDateOfBirth="1980-01-05" HKCharacteristicTypeIdentifierBiologicalSex="HKBiologicalSexMale" HKCharacteristicTypeIdentifierBloodType="HKBloodTypeNotSet" HKCharacteristicTypeIdentifierFitzpatrickSkinType="HKFitzpatrickSkinTypeNotSet"/>
+ <Me HKCharacteristicTypeIdentifierDateOfBirth="1980-01-05" HKCharacteristicTypeIdentifierBiologicalSex="HKBiologicalSexMale" HKCharacteristicTypeIdentifierBloodType="HKBloodTypeANegative" HKCharacteristicTypeIdentifierFitzpatrickSkinType="HKFitzpatrickSkinTypeII"/>
  <Record type="HKQuantityTypeIdentifierHeight" sourceName="Health" sourceVersion="9.3.2" unit="cm" creationDate="2016-06-12 10:41:28 +0100" startDate="2016-06-12 10:41:00 +0100" endDate="2016-06-12 10:41:00 +0100" value="175">
   <MetadataEntry key="HKWasUserEntered" value="1"/>
  </Record>

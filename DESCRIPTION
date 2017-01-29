@@ -1,7 +1,7 @@
 Package: healthieR
 Type: Package
 Title: Analyse Health Data
-Version: 0.0.1
+Version: 0.0.2
 Authors@R: c(
     person('Paul', 'Staab', , 'develop@paulstaab.de', role=c('aut', 'cre'))
     )
@@ -13,5 +13,6 @@ Suggests:
     testthat
 Imports:
     xml2,
-    R6
+    R6,
+    lubridate
 RoxygenNote: 5.0.1
