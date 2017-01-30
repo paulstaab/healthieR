@@ -7,12 +7,12 @@ addToDrat(){
 
   ## Set up Repo parameters
   git init
-  git config user.name "$GH_USER"
+  git config user.name "$GH_NAME"
   git config user.email "$GH_EMAIL"
   git config --global push.default simple
 
   ## Get drat repo
-  git remote add upstream "https://$GH_TOKEN@github.com/GITHUB_USERNAME/drat.git"
+  git remote add upstream "https://$GH_TOKEN@github.com/$GH_USER/drat.git"
   git fetch upstream 2>err.txt
   git checkout gh-pages
 
