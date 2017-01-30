@@ -18,7 +18,7 @@ addToDrat(){
 
   Rscript -e "drat::insertPackage('$PKG_REPO/$PKG_TARBALL', \
     repodir = '.', \
-    commit='Travis update: build $TRAVIS_BUILD_NUMBER')"
+    commit='Travis update: Adding $PKG_TARBALL to drat')"
   git push 2>/dev/null 1>/dev/null
 
 }
