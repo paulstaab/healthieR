@@ -4,4 +4,6 @@
 ^README-.*\.png$
 ^appveyor\.yml$
 ^\.travis\.yml$
+^\.travis$
+^\.lintr$
 ^inst/example_data/Export$

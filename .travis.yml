@@ -17,10 +17,17 @@ before_install:
 r_packages:
   - lintr
   - covr
+  - drat
 
 after_success:
-  - Rscript -e "lintr::lint_package()"
-  - Rscript -e "library(covr); coveralls()"
+  - test $TRAVIS_R_VERSION_STRING == "release" &&
+    Rscript -e "lintr::lint_package()"
+  - test $TRAVIS_R_VERSION_STRING == "release" &&
+    Rscript -e "library(covr); coveralls()"
+  - test $TRAVIS_PULL_REQUEST == "false" &&
+    test $TRAVIS_BRANCH == "master" &&
+    test $TRAVIS_R_VERSION_STRING == "release" &&
+    bash .travis/deploy_to_drat.sh
 
 notifications:
   email: false
