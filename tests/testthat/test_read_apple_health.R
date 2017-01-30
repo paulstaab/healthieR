@@ -86,3 +86,16 @@ test_that("weight can be extracted from data", {
                           unit = c("kg", "kg"),
                           value = c(88.8, 99.9)))
 })
+
+
+test_that("steps can be extracted from data", {
+  ah <- read_apple_health(ah_data_file)
+  expect_equal(
+    ah$get_steps(),
+    data.frame(start_time = c(ah_parse_time("2016-06-06 11:55:57 +0100"),
+                              ah_parse_time("2016-06-06 12:04:03 +0100")),
+               end_time =  c(ah_parse_time("2016-06-06 11:56:12 +0100"),
+                             ah_parse_time("2016-06-06 12:09:55 +0100")),
+               unit = c("count", "count"),
+               value = c(22, 78)))
+})

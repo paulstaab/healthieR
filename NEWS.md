@@ -1,3 +1,9 @@
+# healthieR 0.0.4
+
+* Added support for extracting steps from Apple Health (#3)
+
+
+
 # healthieR 0.0.3
 
 * Added support for extracting the weight history from Apple Health (#2)

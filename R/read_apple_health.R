@@ -23,6 +23,10 @@ apple_health_class <- R6::R6Class("apple_health_data",
     get_weight = function() {
       "returns weight information as data.frame"
       ah_get_weight(private$data_raw)
+    },
+    get_steps = function() {
+      "returns step entries as data.frame"
+      ah_get_stets(private$data_raw)
     }
   )
 )
@@ -134,13 +138,37 @@ ah_get_xml_records <- function(data_raw, type) {
 }
 
 
-ah_get_weight <- function(data_raw) {
-  records <- ah_get_xml_records(data_raw, "HKQuantityTypeIdentifierBodyMass")
-  record_attr <- xml2::xml_attrs(records)
-  do.call(rbind.data.frame, lapply(record_attr, function(x) {
-    data.frame(time = ah_parse_time(x["startDate"]),
-               unit = x["unit"],
-               value = as.numeric(x["value"]),
-               row.names = NULL)
-  }))
+ah_parse_record_instant <- function(record) {
+  data.frame(time = ah_parse_time(record["startDate"]),
+             unit = record["unit"],
+             value = as.numeric(record["value"]),
+             row.names = NULL)
 }
+
+
+ah_parse_record_durration <- function(record) {
+  data.frame(start_time = ah_parse_time(record["startDate"]),
+             end_time = ah_parse_time(record["endDate"]),
+             unit = record["unit"],
+             value = as.numeric(record["value"]),
+             row.names = NULL)
+}
+
+
+ah_create_record_func <- function(record_type, has_duration = FALSE) {
+  if (has_duration) parse_func <- ah_parse_record_durration
+  else parse_func <- ah_parse_record_instant
+
+  function(data_raw) {
+    records <- ah_get_xml_records(data_raw, record_type)
+    record_attr <- xml2::xml_attrs(records)
+    do.call(rbind.data.frame, lapply(record_attr, parse_func))
+  }
+}
+
+# Functions to parse records:
+ah_get_stets <- ah_create_record_func("HKQuantityTypeIdentifierStepCount",
+                                      has_duration = TRUE)
+
+ah_get_weight <- ah_create_record_func("HKQuantityTypeIdentifierBodyMass",
+                                       has_duration = FALSE)
