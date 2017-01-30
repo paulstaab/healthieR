@@ -6,3 +6,14 @@ healthieR
 =========
 
 This package imports data from Apple Health.
+
+Installation
+------------
+
+At the moment `healthieR` is not on CRAN, but can be installed from my [drat](https://github.com/eddelbuettel/drat) repository:
+
+``` r
+install.packages("drat")
+drat::addRepo("paulstaab")
+install.packages("healthieR")
+```

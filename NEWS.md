@@ -1,3 +1,9 @@
+# healthieR 0.0.5
+
+* Added installation instructions using `drat`.
+
+
+
 # healthieR 0.0.4
 
 * Added support for extracting steps from Apple Health (#3)
