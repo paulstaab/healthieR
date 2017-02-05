@@ -80,11 +80,15 @@ test_that("xml records are extracted", {
 
 test_that("weight can be extracted from data", {
   ah <- read_apple_health(ah_data_file)
-  expect_equal(ah$get_weight(),
-               data.frame(time = c(ah_parse_time("2016-06-10 06:30:00 +0100"),
-                                   ah_parse_time("2016-06-12 21:07:00 +0100")),
-                          unit = c("kg", "kg"),
-                          value = c(88.8, 99.9)))
+  expect_equal(
+    ah$get_weight(),
+    data.frame(type = "BodyMass",
+               start_time = c(ah_parse_time("2016-06-10 06:30:00 +0100"),
+                              ah_parse_time("2016-06-12 21:07:00 +0100")),
+               end_time = c(ah_parse_time("2016-06-10 06:30:00 +0100"),
+                            ah_parse_time("2016-06-12 21:07:00 +0100")),
+               unit = "kg",
+               value = c(88.8, 99.9)))
 })
 
 
@@ -92,10 +96,32 @@ test_that("steps can be extracted from data", {
   ah <- read_apple_health(ah_data_file)
   expect_equal(
     ah$get_steps(),
-    data.frame(start_time = c(ah_parse_time("2016-06-06 11:55:57 +0100"),
+    data.frame(type = "StepCount",
+               start_time = c(ah_parse_time("2016-06-06 11:55:57 +0100"),
                               ah_parse_time("2016-06-06 12:04:03 +0100")),
                end_time =  c(ah_parse_time("2016-06-06 11:56:12 +0100"),
                              ah_parse_time("2016-06-06 12:09:55 +0100")),
-               unit = c("count", "count"),
+               unit = "count",
                value = c(22, 78)))
+})
+
+
+test_that("all records can be extracted", {
+  ah <- read_apple_health(ah_data_file)
+  expect_silent(records <- ah$get_all_records())
+  expect_is(records, "data.frame")
+  expect_equal(colnames(records), c("type", "start_time",
+                                    "end_time", "unit", "value"))
+  expect_gt(nrow(records), 70)
+  expect_false(any(grepl("HKQuantityTypeIdentifier", records$type)))
+  expect_false(any(grepl("HKCategoryTypeIdentifier", records$type)))
+})
+
+
+test_that("parsing unknown record types throws a warnings", {
+  record <- c(type = "UnknownRecord",
+              startDate = "2017-01-14 02:38:00 +0100",
+              endDate = "2017-01-14 02:54:59 +0100",
+              value = "17")
+  expect_warning(expect_equal(ah_parse_record(record), NULL))
 })

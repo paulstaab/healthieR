@@ -20,6 +20,12 @@ apple_health_class <- R6::R6Class("apple_health_data",
       "returns personal information (date of birth, sex, blood & skin type)"
       private$personal_info
     },
+    get_all_records = function() {
+      "returns all records from as data.frame"
+      ah_get_records(private$data_raw,
+                     NULL,
+                     has_duration = TRUE)
+    },
     get_weight = function() {
       "returns weight information as data.frame"
       ah_get_records(private$data_raw,
@@ -136,34 +142,39 @@ ah_parse_time <- function(time) {
 }
 
 
-ah_get_xml_records <- function(data_raw, type) {
-  xml2::xml_find_all(data_raw,
-                     paste0(".//Record[attribute::type='", type, "']"))
+ah_get_xml_records <- function(data_raw, type = NULL) {
+  if (is.null(type)) xpath <- ".//Record"
+  else xpath <- paste0(".//Record[attribute::type='", type, "']")
+
+  xml2::xml_find_all(data_raw, xpath)
 }
 
 
-ah_parse_record_instant <- function(record) {
-  data.frame(time = ah_parse_time(record["startDate"]),
-             unit = record["unit"],
-             value = as.numeric(record["value"]),
-             row.names = NULL)
-}
+ah_parse_record <- function(record) {
+  if (grepl("^HKQuantityTypeIdentifier", record["type"])) {
+    type <- gsub("^HKQuantityTypeIdentifier", "", record["type"])
+    unit <- record["unit"]
+    value <- as.numeric(record["value"])
+  } else if (grepl("^HKCategoryTypeIdentifier", record["type"])) {
+    type <- gsub("^HKCategoryTypeIdentifier", "", record["type"])
+    unit <- NA
+    value <- gsub("^HKCategoryValue", "", record["value"])
+  } else {
+    warning("Unknown record type:", record["type"])
+    return(NULL)
+  }
 
-
-ah_parse_record_durration <- function(record) {
-  data.frame(start_time = ah_parse_time(record["startDate"]),
+  data.frame(type = type,
+             start_time = ah_parse_time(record["startDate"]),
              end_time = ah_parse_time(record["endDate"]),
-             unit = record["unit"],
-             value = as.numeric(record["value"]),
+             unit = unit,
+             value = value,
              row.names = NULL)
 }
 
 
 ah_get_records <- function(data_raw, record_type, has_duration = FALSE) {
-  if (has_duration) parse_func <- ah_parse_record_durration
-  else parse_func <- ah_parse_record_instant
-
   records <- ah_get_xml_records(data_raw, record_type)
   record_attr <- xml2::xml_attrs(records)
-  do.call(rbind.data.frame, lapply(record_attr, parse_func))
+  do.call(rbind.data.frame, lapply(record_attr, ah_parse_record))
 }

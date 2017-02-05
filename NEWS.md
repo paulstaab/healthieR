@@ -1,3 +1,9 @@
+# healthieR 0.0.7
+
+* Add `$get_all_records` function to return all records (#13). 
+
+
+
 # healthieR 0.0.6
 
 * Internal refactoring

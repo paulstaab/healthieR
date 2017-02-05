@@ -1,7 +1,7 @@
 Package: healthieR
 Type: Package
 Title: Analyse Health Data
-Version: 0.0.6
+Version: 0.0.7
 Authors@R: c(
     person('Paul', 'Staab', , 'develop@paulstaab.de', role=c('aut', 'cre'))
     )
