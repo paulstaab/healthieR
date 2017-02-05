@@ -1,6 +1,12 @@
+# healthieR 0.0.6
+
+* Internal refactoring
+
+
+
 # healthieR 0.0.5
 
-* Added installation instructions using `drat`.
+* Added installation instructions for using `drat`.
 
 
 
