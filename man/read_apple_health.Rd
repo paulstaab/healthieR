@@ -17,4 +17,3 @@ zip_file <- system.file("example_data/Export.zip", package = "healthieR")
 health_data <- read_apple_health(zip_file)
 print(health_data)
 }
-

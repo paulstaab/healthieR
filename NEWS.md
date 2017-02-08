@@ -1,3 +1,10 @@
+# healthieR 0.0.8
+
+* Use markdown for roxygen documenation.
+* Add `URL` and `BugReports` to DESCRIPTION.
+
+
+
 # healthieR 0.0.7
 
 * Add `$get_all_records` function to return all records (#13). 
