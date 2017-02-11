@@ -7,3 +7,4 @@
 ^\.travis$
 ^\.lintr$
 ^inst/example_data/Export$
+^man-roxygen$
