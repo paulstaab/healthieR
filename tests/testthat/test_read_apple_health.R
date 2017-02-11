@@ -125,3 +125,17 @@ test_that("parsing unknown record types throws a warnings", {
               value = "17")
   expect_warning(expect_equal(ah_parse_record(record), NULL))
 })
+
+
+test_that("the export date can be extracted", {
+  ah <- read_apple_health(ah_data_file)
+  expect_equal(ah$get_export_time(),
+               ah_parse_time("2017-01-25 20:11:49 +0100"))
+})
+
+
+test_that("printing the object is supported", {
+  ah <- read_apple_health(ah_data_file)
+  ah
+  expect_output(print(ah))
+})

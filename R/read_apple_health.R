@@ -29,14 +29,29 @@ apple_health_class <- R6::R6Class("apple_health_data",
     get_weight = function() {
       "returns weight information as data.frame"
       ah_get_records(private$data_raw,
-                    "HKQuantityTypeIdentifierBodyMass",
-                    has_duration = FALSE)
+                     "HKQuantityTypeIdentifierBodyMass",
+                     has_duration = FALSE)
     },
     get_steps = function() {
       "returns step entries as data.frame"
       ah_get_records(private$data_raw,
-                    "HKQuantityTypeIdentifierStepCount",
-                    has_duration = TRUE)
+                     "HKQuantityTypeIdentifierStepCount",
+                     has_duration = TRUE)
+    },
+    get_export_time = function() {
+      "returns the time of export"
+      xml_export_date <- xml2::xml_find_first(private$data_raw, ".//ExportDate")
+      ah_parse_time(xml2::xml_attr(xml_export_date, "value"))
+    },
+    print = function() {
+      "prints information about this object"
+
+      cat("Apple Health Export from", format(self$get_export_time()), "\n")
+      cat("Containing:\n")
+      records <- self$get_all_records()
+      if (nrow(records) > 0) {
+        cat("*", nrow(records), "health records\n")
+      }
     }
   )
 )

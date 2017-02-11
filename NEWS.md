@@ -1,3 +1,11 @@
+# healthieR 0.0.9
+
+* Add `$get_export_time` time function to get the time at which the data
+  was exported.
+* Add a basic `print` function
+
+
+
 # healthieR 0.0.8
 
 * Use markdown for roxygen documenation.
