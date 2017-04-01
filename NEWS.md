@@ -1,27 +1,34 @@
+# healthieR 0.0.10
+
+* Refactored the package to increase its "tidyness".
+* Dropped R6 Classes in favor for S3.
+
+
+
 # healthieR 0.0.9
 
-* Add `$get_export_time` time function to get the time at which the data
+* Added `$get_export_time` time function to get the time at which the data
   was exported.
-* Add a basic `print` function
+* Added a basic `print` function
 
 
 
 # healthieR 0.0.8
 
-* Use markdown for roxygen documenation.
-* Add `URL` and `BugReports` to DESCRIPTION.
+* Switched markdown for roxygen documenation.
+* Added `URL` and `BugReports` to DESCRIPTION.
 
 
 
 # healthieR 0.0.7
 
-* Add `$get_all_records` function to return all records (#13). 
+* Added `$get_all_records` function to return all records (#13). 
 
 
 
 # healthieR 0.0.6
 
-* Internal refactoring
+* Refactored the internal package structure.
 
 
 
