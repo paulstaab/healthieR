@@ -29,5 +29,3 @@ after_success:
     test $TRAVIS_R_VERSION_STRING == "release" &&
     bash .travis/deploy_to_drat.sh
 
-notifications:
-  email: false
