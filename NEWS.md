@@ -1,3 +1,9 @@
+# healthieR 0.1.0
+
+* Added basic usage instructions to the README.
+
+
+
 # healthieR 0.0.10
 
 * Refactored the package to increase its "tidyness".

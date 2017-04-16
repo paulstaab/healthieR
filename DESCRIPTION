@@ -1,11 +1,11 @@
 Package: healthieR
 Type: Package
 Title: Analyse Health Data
-Version: 0.0.10
+Version: 0.1.0
 Authors@R: c(
     person('Paul', 'Staab', , 'develop@paulstaab.de', role=c('aut', 'cre'))
     )
-Description: This package imports data from Apple Health.
+Description: This package imports fitness data from Apple Health.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true

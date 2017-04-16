@@ -23,7 +23,10 @@ knitr::opts_chunk$set(
 healthieR
 =========
 
-This package imports data from Apple Health.
+This package imports data from Apple Health. It is usuable for basic analyses
+at the moment, but still in an early state. Expect that the user inferface
+is still subject to potentially major changes.
+
 
 
 Installation
@@ -37,4 +40,54 @@ install.packages("drat")
 drat::addRepo("paulstaab")
 install.packages("healthieR")
 ```
+
+
+
+Obtain the Data
+---------------
+
+1. Open the Apple Health App on your iPhone / iPad
+2. Go to the "Data" tab
+3. Click the little portait in the upper right corner
+4. Scroll down to "Export Data"
+5. Use Dropbox, Email or something similar to transfer the **Export.zip** 
+   to your computer
+
+
+
+Load the Data
+-------------
+
+To import the data, enter the Path the the **Export.zip** archive here
+```{r path_to_zip, eval=FALSE}
+zip_file <- "./Export.zip"
+```
+
+```{r test_path, echo=FALSE, include=FALSE}
+zip_file <- system.file("example_data/Export.zip", package = "healthieR")
+```
+
+and load use the `read_apple_health` function to convert it into an format
+that we can query from `R` later:
+
+```{r import_data}
+library(healthieR)
+health_data <- read_apple_health(zip_file)
+health_data
+```
+
+
+
+Analyse the Data
+----------------
+
+You can new use the extract functions to optain different parts of your data
+as a `data.frame`;
+
+```{r}
+suppressPackageStartupMessages(library(dplyr))
+health_data %>% extract_steps()
+health_data %>% extract_weight()
+```
+
 
